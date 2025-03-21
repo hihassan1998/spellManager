@@ -1,0 +1,29 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment directories
+venv/
+env/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# MacOS system files
+.DS_Store
+
+# Logs
+*.log
+
+# Test coverage reports
+.coverage
+*.cover
+
+# PyInstaller
+dist/
+build/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
