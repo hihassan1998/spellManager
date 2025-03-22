@@ -8,6 +8,7 @@ from pathlib import Path
 from flask import Flask, render_template, request, session, redirect, url_for
 from src.trie import Trie
 from src.file_manager import FileManager
+from src.errors import SearchMiss
 
 
 app = Flask(__name__)
@@ -27,14 +28,22 @@ current_file = "tiny_dictionary.txt"
 
 def initialize_trie():
     global trie
-    trie = Trie()
-    words_from_file = FileManager.load_words_from_file(current_file)
+    # trie = Trie()
+    trie = Trie.create_from_file(current_file)
+    # print(trie.get_all_words())
+    # words_from_file = FileManager.load_words_from_file(current_file)
+    # removed_words = session.get('removed_words', [])
     # for word in words_from_file:
     #     trie.insert(word)
     removed_words = session.get('removed_words', [])
-    for word in words_from_file:
-        if word not in removed_words:
-            trie.insert(word)
+    try:
+        for word in removed_words:
+            trie.remove(word)
+    except SearchMiss as e:
+        print(f"Error during Trie initialization: {e}")
+    # for word in words_from_file:
+    #     if word not in removed_words:
+    #         trie.insert(word)
 
 
 @app.route("/remove_word", methods=['GET', "POST"])
@@ -42,38 +51,31 @@ def remove_word():
     """
     Route to handle the word removal from the Trie.
     """
-    print(session)
     if request.method == "POST":
         word_to_remove = request.form.get('remove_word')
-
-        if not word_to_remove:
-            return render_template('error.html', message="No word entered.")
-
         word_to_remove = word_to_remove.strip().lower()
-        print(session)
-        if trie.search(word_to_remove):
+        try:
+            if trie.search(word_to_remove):
 
-            removed_words = session.get('removed_words', [])
-            removed_words.append(word_to_remove)
-            session['removed_words'] = removed_words
-            print("Updated removed_words from seesh 1:",
-                  session.get('removed_words', []))
-
-            trie.remove(word_to_remove)
-            print(session)
-            return redirect(url_for('words'))
-        else:
-            print(session)
-            return render_template('remove_word.html', search_result="Word not found in the list", searched_word=word_to_remove, word_to_remove=word_to_remove)
-    print("Updated removed_words from sesh 2:",
-          session.get('removed_words', []))
+                removed_words = session.get('removed_words', [])
+                removed_words.append(word_to_remove)
+                session['removed_words'] = removed_words
+                # print("Updated removed_words from seesh 1:",session.get('removed_words', []))
+                trie.remove(word_to_remove)
+                return redirect(url_for('words'))
+            else:
+                print(session)
+                return render_template('remove_word.html', word_to_remove=word_to_remove)
+        except SearchMiss as e:
+            print(f"Error during word removal: {e}")
+    # print("Updated removed_words from sesh 2:",session.get('removed_words', []))
     return render_template('remove_word.html')
 
 
 @app.route("/", methods=['GET', 'POST'])
 def main():
     """
-    Route for the home page with minor details about tri dict manager app
+    Route for the home page with minor details about trie dict manager app
     """
     return render_template("index.html")
 
@@ -81,21 +83,21 @@ def main():
 @app.route('/check_word', methods=["GET", "POST"])
 def check_word():
     """
-    Display the leaderboard page with the current entries and total points.
+    Display the checked word page the dispaly if entry is valid.
     """
     initialize_trie()
     search_result = None
     searched_word = ""
     if request.method == "POST":
-        searched_word = request.form.get("word", "").strip().lower()
+        searched_word = request.form.get("word", "").strip()
         if searched_word:
             search_result = trie.search(searched_word)
-            # print("reply from class:", search_result)
 
     return render_template("check_word.html",
                            search_result=search_result,
                            searched_word=searched_word,
                            )
+
 
 
 @app.route('/search', methods=['GET'])
@@ -176,15 +178,6 @@ def about():
     Route for the about page
     """
     return render_template("about.html")
-
-
-@app.route('/delete_mode', methods=['POST'])
-def delete_mode():
-    """
-    Toggle the delete mode on the leaderboard page.
-    """
-    session['delete_mode'] = not session.get('delete_mode', False)
-    return redirect(url_for('leaderboard'))
 
 
 @app.errorhandler(404)
