@@ -12,15 +12,25 @@ class TestTrie(unittest.TestCase):
     Test cases for the Trie class module.
     """
 
-    def test_insert_and_search(self):
+    def test_insertion(self):
         """
-        Test inserting a word and then searching for it.
+        Test inserting a word.
+        """
+        self.trie = Trie()
+        word = "hello"
+        self.trie.insert(word)
+        self.assertTrue(self.trie.search(word))
+
+    def test_search(self):
+        """
+        Test searching for a word.
         """
         self.trie = Trie()
         word = "hello"
         self.trie.insert(word)
         self.assertTrue(self.trie.search(word))
         self.assertFalse(self.trie.search("world"))
+
 
 if __name__ == "__main__":
     unittest.main()
