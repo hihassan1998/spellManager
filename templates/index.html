@@ -1,24 +1,19 @@
 {% include 'header.html' %}
 
 <div class="container" role="home">
-    <div class="page-header"style="background: rgba(180, 138, 101, 0.724); 
-    padding:25px;
-    border-radius:25px;
-    font-size: 2rem;
-    margin-top:25px;">
+    <div class="page-header">
         <h1> Welcome to the Trie Dictionary Spelling Manager!</h1>
-        <img src="../static/img/words33.png" class="img" style="width: 50%;
-  height: auto;" alt="home image">
+
         <h3>This application allows you to manage a dynamic word list using a Trie data structure.
         </h3>
 
     </div>
-    <div class="game-contianer" style="background: rgba(180, 138, 101, 0.724); 
-    padding:25px;
-    border-radius:25px;
-    font-size: 2rem;
-    margin-top:25px;">
+    <div class="game-contianer">
 
+       
+
+        <!-- <img src="{{ url_for('static',filename='img/words2.jpg') }}" class="img" style="width: 40%;
+        height: auto;" alt="home image"> -->
         <div id="dice-container" class="dice-container" style="width: 50%; height:auto;">
             <h4>You can:</h4>
             <ul>
@@ -42,14 +37,9 @@
             </p>
             <!-- <button href="/about" class="btn btn-custom-black"> About PAge
                 🎲</button> -->
-
         </div>
-        <div class="container">
-
-            <img src="../static/img/words1.jpg" class="img" style="width: 40%;
-  height: auto;" alt="home image">
-
-        </div>
+        <img src="../static/img/words33.png" class="img" style="width: 40%;
+        height: auto;" alt="home image">
     </div>
 
 

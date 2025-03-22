@@ -8,8 +8,8 @@ body {
     display: flex;
     flex-direction: column;
     /* background-color: #c7ae9a51; */
-    background: #f8f9fa;
-
+    /* background: #f8f9fa; */
+    background: linear-gradient(to right, #F5DEB3, #D2B48C, #8B4513);
     padding-top: 4em !important;
     padding-bottom: 2em !important;
     font-family: Arial, sans-serif;
@@ -279,13 +279,14 @@ tr:hover {
     flex-direction: row;
     justify-content: space-around;
     align-items: center
-    /* gap: 50px; */
+        /* gap: 50px; */
 }
 
 .centered-container {
     display: flex;
     justify-content: center;
 }
+
 @media (max-width: 768px) {
     .game-contianer {
         display: flex;
