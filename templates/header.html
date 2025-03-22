@@ -26,7 +26,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url_for('main') }}">SPELL A WORD APP</a>
+                <!-- <a class="navbar-brand" href="{{ url_for('main') }}">SPELL A WORD APP</a> -->
+                <a class="navbar-brand" href="{{ url_for('main') }}">Trie Dictionary Manager</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -40,6 +41,12 @@
                     </li>
                     <li {%- if request.path=="/check_word" %} class="active" {% endif %}><a
                             href="{{ url_for('check_word') }}">Check Word</a>
+                    </li>
+                    <li {%- if request.path=="/search" %} class="active" {% endif %}><a
+                            href="{{ url_for('search') }}">Search from prefix</a>
+                    </li>
+                    <li {%- if request.path=="/words" %} class="active" {% endif %}><a
+                            href="{{ url_for('words') }}">All words</a>
                     </li>
                 </ul>
             </div>

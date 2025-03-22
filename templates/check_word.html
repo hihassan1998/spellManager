@@ -1,85 +1,30 @@
 {% include 'header.html' %}
 
 <div class="container" role="home">
-    <h1>Check if a word exists in the dictionary</h1>
-    <h3>Think of any word and check if this dictionary contains it. </h3>
-    <!-- Kept for quick form submition test -->
-    <form style="background: rgb(186, 186, 186); padding:25px;" method="POST" action="/check_word">
-        <label for="player_name">Enter your name:</label>
-        <input type="text" id="player_name" name="player_name" required>
-        <button type="submit">Submit</button>
-        <hr>
-        <h4>
-            Total points passed from the session: {{total_points}}
-        </h4>
+    <form style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px; " method="POST"
+        action="/check_word">
+        <h1>Check if a word exists in the dictionary</h1>
+        <h3>Think of any word and check if this dictionary contains it. </h3>
+        <br>
+        <input type="text" name="word" placeholder="Enter word..." required>
+        <button class="btn-custom-brown" type="submit">Search</button>
     </form>
-
-    <div class="leaderboard-container">
-        <table class="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Player Name</th>
-                    <th>Score</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for index, (name, score) in entries %}
-                <tr>
-                    <td>{{ name }}</td>
-                    <td>{{ score }}</td>
-                    <td style="justify-items: center;">
-                        {% if session.get('delete_mode', False) %}
-                        <form method="POST" action="{{ url_for('delete_entry', index=index) }}">
-                            <button class=" btn btn-custom-white" type="submit">❌</button>
-                        </form>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            <tfoot>
-                <tr style="background-color: #d4d2d2; font-size:2rem;">
-                    <td colspan="2"><strong>Total Entries:</strong></td>
-                    <td colspan="1">{{ total_entries }}</td>
-                </tr>
-                <tr>
-                    <td style="justify-items: center;">
+    <!-- <hr>s -->
+    {% if searched_word %}
+    <div style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
+        <!-- <hr> -->
+        {% if search_result is not none and search_result %}
+        <h2>Search Results:</h2>
+        <p>The word "<b>{{ searched_word }} </b>" exists in the dictionary</p>
+        {% else %}
+        <h2>Search Results:</h2>
+        <p>The word "<b>{{ searched_word }} </b>" is not in the dictionary</p>
+        {% endif %}
+        <!-- <hr> -->
+    </div>
+    {% endif %}
 
 
-                        <form method="POST" action="{{ url_for('delete_mode') }}">
-                            <button class="btn btn-custom-black" type="submit">
-                                {% if session.get('delete_mode', False) %}
-                                Cancel Deleting
-                                {% else %}
-                                Delete Users
-                                {% endif %}
-                            </button>
-                        </form>
-
-
-
-                        
-                    </td>
-                </tr>
-            </tfoot>
-        </tbody>
-    </table>
-    
-</div>
-<hr>
-<h1>Trie Ordhantering</h1>
-
-<h2>Ord i Trie</h2>
-<ol>
-    {%if total_nodes%}
-    <h2>Total Words: {{total_nodes}}</h2>
-    {%endif%}
-    {% for word in words %}
-    
-        <li>{{ word }}</li>
-
-    {% endfor %}
-</ol>
 </div>
 
 

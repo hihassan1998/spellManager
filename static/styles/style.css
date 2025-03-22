@@ -33,9 +33,10 @@ body {
     color: blue !important;
 }
 
-.navbar-default .navbar-brand{
+.navbar-default .navbar-brand {
     color: #fff;
 }
+
 .page-header {
     margin: 75px 0 20px !important;
 }
@@ -151,13 +152,19 @@ h1 {
 /* Container stylings end */
 
 /* buttons styling */
-.btn-custom-black {
+.btn-custom-brown {
     margin-top: 25px;
     background-color: rgb(174, 143, 118);
     color: #fff;
     padding: 5px 15px;
     border-radius: 5px;
     border: 2px solid black;
+}
+
+.btn-custom-brown:hover {
+    background-color: rgb(192, 142, 101);
+    color: black;
+    font-weight: bolder;
 }
 
 .btn-custom-white {
@@ -183,6 +190,22 @@ h1 {
     color: black;
     background-color: white;
     font-weight: 900;
+}
+
+
+/* form and table stylings */
+input[type="text"] {
+    padding: 5px;
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:hover,
+input[type="text"]:focus {
+    border: 3px solid #5A2D0C;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
 }
 
 /* footer stylings */
@@ -214,6 +237,7 @@ td {
 }
 
 tr {
+    text-align: center;
     border: 1px solid #333;
 }
 

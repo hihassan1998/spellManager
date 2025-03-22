@@ -1,0 +1,40 @@
+{% include 'header.html' %}
+
+<div class="container" role="home">
+
+    <div
+        style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
+        <h1>This page shows all the words that are present in the selected dictionary.</h1>
+        <p>This dictionary containes a total of <b>
+                "{{total_nodes}}"
+            </b>
+            words
+        </p>
+    </div>
+    <div class="leaderboard-container">
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Words in dictionary</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for word in words %}
+                <tr>
+                    <td>
+                        {{ word }}
+                    </td>
+                </tr>
+                {% endfor %}
+            <tfoot>
+
+            </tfoot>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+{% include 'footer.html' %}

@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+
+<title>Auto-Complete Search</title>
+<div class="container" role="home">
+    <div
+        style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
+
+        <h2>Auto-Complete Search</h2>
+        <form method="GET" action="{{ url_for('search') }}">
+            <input type="text" name="prefix" placeholder="Enter prefix..." value="{{ prefix }}">
+            <button type="submit">Search</button>
+        </form>
+        <div class="leaderboard-container">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr style="background-color: #d4d2d2; font-size:2rem;">
+                        <td colspan="1"><strong>Matching Wrods:</strong></td>
+                </thead>
+                <tbody>
+                    {% for word in words %}
+                    <tr>
+                        <td>
+                            {{ word }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% include 'footer.html' %}
