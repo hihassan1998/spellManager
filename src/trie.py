@@ -73,8 +73,8 @@ class Trie:
             if char not in node.children:
                 return []
             node = node.children[char]
-        return _dfs(node, prefix)
-    
+        return _fetch_words(node, prefix)
+
     def get_all_words(self):
         """
         Returns a list of all words in the Trie.
@@ -86,6 +86,41 @@ class Trie:
         Returns the total number of nodes in the trie.
         """
         return _count_words(self.root)
+
+    def search_suffix(self, suffix):
+        """
+        Searches for all words in the Trie that end with the given suffix.
+        Uses post-order traversal to match the suffix.
+        """
+        suffix = suffix.lower()
+        matched_words = []
+        self._traverse_and_find_suffix(self.root, "", suffix, matched_words)
+        return sorted(matched_words)
+
+    def _traverse_and_find_suffix(self, node, current_word, suffix, matched_words):
+        """
+        Helper method for recursive post-order traversal.
+        It checks if the current_word (built so far) ends with the suffix.
+        """
+        if node.is_end_of_word:
+            if self._ends_with(current_word, suffix):
+                matched_words.append(current_word)
+        for char, child_node in node.children.items():
+            self._traverse_and_find_suffix(
+                child_node, current_word + char, suffix, matched_words)
+
+    def _ends_with(self, word, suffix):
+        """
+        Checks if the word ends with the given suffix by manually comparing characters.
+        """
+        word_len = len(word)
+        suffix_len = len(suffix)
+        if word_len < suffix_len:
+            return False
+        for i in range(suffix_len):
+            if word[word_len - suffix_len + i] != suffix[i]:
+                return False
+        return True
 
     @classmethod
     def create_from_file(cls, filename):

@@ -106,9 +106,24 @@ def check_word():
 @app.route('/search', methods=['GET'])
 def search():
     prefix = request.args.get('prefix', '')
-    matched_words = trie.search_prefix(prefix) if prefix else []
+    if prefix:
+        matched_words = trie.search_prefix(prefix)
+    else:
+        matched_words = []
 
     return render_template('search.html', matched_words=matched_words, prefix=prefix)
+
+
+@app.route('/search_suffix', methods=['GET'])
+def search_suffix():
+    suffix = request.args.get('suffix', '')
+    if suffix:
+        matched_words = trie.search_suffix(suffix)
+        print(matched_words)
+    else:
+        matched_words = []
+
+    return render_template('search_suffix.html', matched_words=matched_words, suffix=suffix)
 
 
 @app.route("/reset", methods=['GET', 'POST'])

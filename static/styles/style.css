@@ -21,6 +21,16 @@ body {
     background-color: rgb(121, 80, 26) !important;
 }
 
+a.navbar-brand {
+    font-size: xx-large;
+    font-family: fantasy;
+}
+
+a:hover {
+    color: black !important;
+    font-weight: bold;
+}
+
 .navbar-inverse .navbar-brand,
 .navbar-inverse .navbar-nav>li>a {
     color: #ffffff !important;

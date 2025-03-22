@@ -54,6 +54,9 @@
                     <li {%- if request.path=="/remove_word" %} class="active" {% endif %}><a
                             href="{{ url_for('remove_word') }}">Remove Word</a>
                     </li>
+                    <li {%- if request.path=="/search_suffix" %} class="active" {% endif %}><a
+                            href="{{ url_for('search_suffix') }}">Search from suffix </a>
+                    </li>
                 </ul>
             </div>
         </div>

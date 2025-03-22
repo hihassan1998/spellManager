@@ -1,17 +1,18 @@
 {% include 'header.html' %}
 <main>
-    <title>Auto-Complete Search</title>
+    <title>Search from Suffix</title>
     <div class="container" role="home">
         <div class="page-header" style="background: rgba(180, 138, 101, 0.724); 
             padding:25px;
             border-radius:25px;
             font-size: 2rem;
             margin-top:25px;">
-            <h1>Search from Prefix</h1>
-            <form method="GET" action="{{ url_for('search') }}">
-                <input type="text" name="prefix" placeholder="Enter prefix..." value="{{ prefix }}">
+            <h1>Search from Suffix</h1>
+            <form method="GET" action="{{ url_for('search_suffix') }}">
+                <input type="text" name="suffix" placeholder="Enter suffix..." value="{{ suffix }}">
                 <button class="btn-custom-brown" type="submit">Search</button>
             </form>
+            <hr>
             <div class="centered-container">
                 <table class="brown-table">
                     <thead>
