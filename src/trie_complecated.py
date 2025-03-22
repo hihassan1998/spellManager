@@ -28,7 +28,7 @@ class Trie:
         """
         self.root = Node()
 
-    def insert(self, word: str):
+    def add_word(self, word: str):
         """
         Inserts a word into the Trie.
         """
@@ -110,7 +110,7 @@ class Trie:
         trie = cls()
         words = FileManager.load_words_from_file(filename)
         for word in words:
-            trie.insert(word)
+            trie.add_word(word)
         return trie
 
 
