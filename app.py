@@ -51,12 +51,13 @@ def remove_word():
     """
     Route to handle the word removal from the Trie.
     """
+    word_to_remove = None
+    error_message = None
     if request.method == "POST":
         word_to_remove = request.form.get('remove_word')
         word_to_remove = word_to_remove.strip().lower()
         try:
             if trie.search(word_to_remove):
-
                 removed_words = session.get('removed_words', [])
                 removed_words.append(word_to_remove)
                 session['removed_words'] = removed_words
@@ -64,12 +65,11 @@ def remove_word():
                 trie.remove(word_to_remove)
                 return redirect(url_for('words'))
             else:
-                print(session)
-                return render_template('remove_word.html', word_to_remove=word_to_remove)
+                error_message = f"The word '{word_to_remove}' is not present in the dictionary."
         except SearchMiss as e:
-            print(f"Error during word removal: {e}")
+            error_message = str(e)
     # print("Updated removed_words from sesh 2:",session.get('removed_words', []))
-    return render_template('remove_word.html')
+    return render_template('remove_word.html', word_to_remove=word_to_remove, error_message=error_message)
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -91,13 +91,16 @@ def check_word():
     if request.method == "POST":
         searched_word = request.form.get("word", "").strip()
         if searched_word:
-            search_result = trie.search(searched_word)
+            # search_result = trie.search(searched_word)
+            try:
+                search_result = trie.search(searched_word)
+            except SearchMiss:
+                search_result = False
 
     return render_template("check_word.html",
                            search_result=search_result,
                            searched_word=searched_word,
                            )
-
 
 
 @app.route('/search', methods=['GET'])

@@ -73,8 +73,23 @@ class Trie:
             if char not in node.children:
                 return []
             node = node.children[char]
-        return _dfs(node, prefix)
-    
+        return _fetch_words(node, prefix)
+        #     node = node.search(char)
+        #     if not node:
+        #         return []  # No words found with this prefix
+        # return self._get_words_from_node(node, prefix)
+
+    # def _get_words_from_node(self, node: Node, prefix: str):
+    #     """
+    #     Recursively collects all words starting from the given node.
+    #     """
+    #     words = []
+    #     if node.is_end_of_word:
+    #         words.append(prefix)
+    #     for char, child_node in node.children.items():
+    #         words.extend(self._get_words_from_node(child_node, prefix + char))
+    #     return words
+
     def get_all_words(self):
         """
         Returns a list of all words in the Trie.
@@ -127,6 +142,16 @@ def _fetch_words(node, prefix):
     for char, child in node.children.items():
         words.extend(_fetch_words(child, prefix + char))
     return words
+
+
+# maybe a method to get chars from node childer:
+
+
+    def search(self, char: str) -> 'Node':
+        """
+        Returns the child node for the given character if it exists.
+        """
+        return self.children.get(char)
 
 
 def _count_words(node):
