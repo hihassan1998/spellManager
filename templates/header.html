@@ -45,8 +45,14 @@
                     <li {%- if request.path=="/search" %} class="active" {% endif %}><a
                             href="{{ url_for('search') }}">Search from prefix</a>
                     </li>
-                    <li {%- if request.path=="/words" %} class="active" {% endif %}><a
-                            href="{{ url_for('words') }}">All words</a>
+                    <li {%- if request.path=="/words" %} class="active" {% endif %}><a href="{{ url_for('words') }}">All
+                            words</a>
+                    </li>
+                    <li {%- if request.path=="/select" %} class="active" {% endif %}><a
+                            href="{{ url_for('select') }}">Choose Dictionary</a>
+                    </li>
+                    <li {%- if request.path=="/remove_word" %} class="active" {% endif %}><a
+                            href="{{ url_for('remove_word') }}">Remove Word</a>
                     </li>
                 </ul>
             </div>

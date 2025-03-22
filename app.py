@@ -16,6 +16,12 @@ app.secret_key = "my_secret_key"
 
 
 trie = Trie()
+# check if tri is int empty initally / globally
+# words = trie.get_all_words()
+# print("words from trie DS:", trie)
+# print("empty trie obj:", trie)
+# current_file should be updated from the /select route and applied
+# globaly so that initalize_ttrie used allwasy the files that is slected
 current_file = "tiny_dictionary.txt"
 
 
@@ -23,8 +29,45 @@ def initialize_trie():
     global trie
     trie = Trie()
     words_from_file = FileManager.load_words_from_file(current_file)
+    # for word in words_from_file:
+    #     trie.insert(word)
+    removed_words = session.get('removed_words', [])
     for word in words_from_file:
-        trie.insert(word)
+        if word not in removed_words:
+            trie.insert(word)
+
+
+@app.route("/remove_word", methods=['GET', "POST"])
+def remove_word():
+    """
+    Route to handle the word removal from the Trie.
+    """
+    print(session)
+    if request.method == "POST":
+        word_to_remove = request.form.get('remove_word')
+
+        if not word_to_remove:
+            return render_template('error.html', message="No word entered.")
+
+        word_to_remove = word_to_remove.strip().lower()
+        print(session)
+        if trie.search(word_to_remove):
+
+            removed_words = session.get('removed_words', [])
+            removed_words.append(word_to_remove)
+            session['removed_words'] = removed_words
+            print("Updated removed_words from seesh 1:",
+                  session.get('removed_words', []))
+
+            trie.remove(word_to_remove)
+            print(session)
+            return redirect(url_for('words'))
+        else:
+            print(session)
+            return render_template('remove_word.html', search_result="Word not found in the list", searched_word=word_to_remove, word_to_remove=word_to_remove)
+    print("Updated removed_words from sesh 2:",
+          session.get('removed_words', []))
+    return render_template('remove_word.html')
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -60,7 +103,7 @@ def search():
     prefix = request.args.get('prefix', '')
     matched_words = trie.search_prefix(prefix) if prefix else []
 
-    return render_template('search.html', words=matched_words, prefix=prefix)
+    return render_template('search.html', matched_words=matched_words, prefix=prefix)
 
 
 @app.route("/reset", methods=['GET', 'POST'])
@@ -68,34 +111,52 @@ def reset():
     """
     Reset the game session to start a new game.
     """
+    global current_file
+    current_file = "tiny_dictionary.txt"
+    # re initiallize from start
     session.clear()
-    # return redirect("/~hahi24/dbwebb-kurser/oopython/me/kmom04/yahtzee3/app.cgi")
+    initialize_trie()
+
     return redirect(url_for('main'))
 
 
-@app.route("/select", methods=['GET','POST'])
+@app.route("/select", methods=['GET', 'POST'])
 def select():
     """
-    Route for the about page
+    Route for the select page
     """
+    global current_file
     list_files = FileManager.get_available_files()
-    print("file names:", list_files)
-    # initialize_trie()
+    prompt = None
+    if request.method == 'POST':
+        selected_file = request.form.get('file')
+
+        if selected_file is None:
+            prompt = "Please select a file. !!!"
+            print(prompt)
+        else:
+            current_file = selected_file
+            session.clear()
+            initialize_trie()
+
     return render_template('select.html',
-                           list_files=list_files
+                           list_files=list_files,
+                           current_file=current_file,
+                           prompt=prompt
                            )
 
-@app.route("/words", methods=['GET','POST'])
+
+@app.route("/words", methods=['GET', 'POST'])
 def words():
     """
     Route for the about page
     """
-    list_files = FileManager.get_available_files()
-    print("file names:", list_files)
+    global current_file
+    # print("file name from words route gets global:", current_file)
     initialize_trie()
-    words_in_list = trie.get_all_words()
+    # words_in_list = trie.get_all_words()
     # for word in words_in_list:
-        # print(word)
+    # print(word)
     # print("the words returned:", words_in_list)
     total_nodes = trie.size()
     # all_words_list = trie.search_prefix('')
@@ -105,7 +166,7 @@ def words():
                            #    words=sorted_words,
                            words=sorted_words,
                            total_nodes=total_nodes,
-                           list_files=list_files
+                           current_file=current_file
                            )
 
 
@@ -117,37 +178,12 @@ def about():
     return render_template("about.html")
 
 
-@app.route('/check_word', methods=['POST'])
-def add_entry():
-    """
-    Add a new entry to the leaderboard with the player's name and score.
-    """
-    # filename = Path("leaderboard.txt")
-
-    player_name = request.form['player_name']
-
-    session['player_name_submitted'] = True
-
-    return redirect(url_for('check_word'))
-
-
 @app.route('/delete_mode', methods=['POST'])
 def delete_mode():
     """
     Toggle the delete mode on the leaderboard page.
     """
     session['delete_mode'] = not session.get('delete_mode', False)
-    return redirect(url_for('leaderboard'))
-
-
-@app.route('/leaderboard/<int:index>', methods=['POST'])
-def delete_entry(index):
-    """
-    Delete a specific leaderboard entry at its index.
-    """
-    # leaderboard_obj = Leaderboard.load("leaderboard.txt")
-    # leaderboard_obj.remove_entry(index)
-
     return redirect(url_for('leaderboard'))
 
 

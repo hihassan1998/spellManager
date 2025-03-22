@@ -1,0 +1,30 @@
+{% include 'header.html' %}
+<main>
+    <title>Remove a Word</title>
+    <div class="container" role="home">
+        <div class="page-header" style="background: rgba(180, 138, 101, 0.724); 
+            padding:25px;
+            border-radius:25px;
+            font-size: 2rem;
+            margin-top:25px;">
+            <h2>Remove a word from Dictionary</h2>
+            <form method="POST" action="{{ url_for('remove_word') }}">
+                <label for="remove-word">Enter a word to remove:</label>
+                <input type="text" name="remove_word" id="remove-word" required>
+                <button class="btn-custom-brown" type="submit">Remove Word</button>
+                {%if word_to_remove %}
+                <hr>
+                <p>The word <b>"{{word_to_remove}}"</b> is not present in the dictionary</p>
+                <hr>
+                {%endif %}
+            </form>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</main>
+
+
+
+{% include 'footer.html' %}

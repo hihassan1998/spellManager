@@ -1,41 +1,16 @@
 {% include 'header.html' %}
 
 <div class="container" role="home">
-    <h1>
-        {% for file in list_files %}
-        <tr>
-            <td>
-                {{ file }}
-            </td>
-        </tr>
-        {% endfor %}
-    </h1>
-    debugg: {{list_files}}
-
-    <h1>Select a File</h1>
-    <form method="POST" action="/words"> <!-- Adjust the action based on your needs -->
-        <label for="file-select">Choose a file:</label>
-        <select name="file" id="file-select">
-            {% for file in list_files %}
-            <option value="{{ file }}">{{ file }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Submit</button>
-    </form>
-
-
-
-    <div
-        style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
+    <div style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
         <h1>This page shows all the words that are present in the selected dictionary.</h1>
-        <p>This dictionary containes a total of <b>
+        <p>The <b>{{current_file}} </b> dictionary containes a total of <b>
                 "{{total_nodes}}"
             </b>
             words
         </p>
     </div>
-    <div class="leaderboard-container">
-        <table class="leaderboard-table">
+    <div class="centered-container">
+        <table class="brown-table">
             <thead>
                 <tr>
                     <th>Words in dictionary</th>

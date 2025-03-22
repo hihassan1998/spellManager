@@ -1,30 +1,54 @@
 {% include 'header.html' %}
 
 <div class="container" role="home">
-    <h1>
-        {% for file in list_files %}
-        <tr>
-            <td>
-                {{ file }}
-            </td>
-        </tr>
-        {% endfor %}
-    </h1>
-    debugg: {{list_files}}
+    <div
+        style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
 
-    <h1>Select a File</h1>
-    <form method="POST" action="/words">
-        <label for="file-select">Choose a file:</label>
-        <select name="file" id="file-select">
-            {% for file in list_files %}
-            <option value="{{ file }}">{{ file }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Submit</button>
-    </form>
+        <h1>Select a File</h1>
+        <p>The currently selected file: <b> {{current_file}} </b></p>
+        <div class="centered-container">
 
+            <table class="brown-table">
+                <tr>
+                    <th>Available files</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>tiny_dictionary</td>
+                    <td>In its defualt state this dictionary contains 170 words to test on this app.</td>
+                </tr>
+                <tr>
+                    <td>dictionary</td>
+                    <td>In its default state this dictionary contains 25402 words to test on this app.</td>
+                </tr>
+            </table>
+        </div>
+        {% if prompt %}
+        <div class="centered-container">
+            <hr>
+            <p
+                style=" color:red; background: yellow; padding:25px; font-weight:bolder;  border-radius:25px;  font-size: 2rem; margin-top:25px;">
+                {{ prompt }}</p>
+            <hr>
+        </div>
+        {% endif %}
+        <form method="POST" action="/select" style="display: inline-block; margin-right: 10px;">
+            <label for="file-select">Choose a file:</label>
+            <select class="" name="file" id="file-select">
+                <option value="" disabled selected>Choose...</option>
+                {% for file in list_files %}
+                <option value="{{ file }}">{{ file }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn-custom-brown" type="submit">Submit</button>
+        </form>
+        <form method="GET" action="/reset" style="display: inline-block;">
+            <button class="btn-custom-brown">Reset State</button>
+        </form>
+
+
+    </div>
 </div>
-
 
 
 {% include 'footer.html' %}

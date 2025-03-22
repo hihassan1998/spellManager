@@ -7,6 +7,9 @@ body {
 body {
     display: flex;
     flex-direction: column;
+    /* background-color: #c7ae9a51; */
+    background: #f8f9fa;
+
     padding-top: 4em !important;
     padding-bottom: 2em !important;
     font-family: Arial, sans-serif;
@@ -208,6 +211,20 @@ input[type="text"]:focus {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
 }
 
+select {
+    padding: 5px;
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+select:hover,
+select:focus {
+    border: 3px solid #5A2D0C;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
+}
+
 /* footer stylings */
 footer {
     flex-shrink: 0;
@@ -215,7 +232,10 @@ footer {
     flex-direction: column;
     margin-bottom: 0 auto;
     padding: 10px;
-    background: #f8f9fa;
+    /* background: #f8f9fa; */
+    background-color: #c7ae9a51;
+
+    /* background: #f8f9fa; */
 }
 
 /* table stylings */
@@ -226,8 +246,13 @@ table {
     font-size: 18px;
     text-align: left;
     border: 5px solid #333;
-    border-radius: 25px;
     padding: 25px;
+}
+
+.brown-table {
+    border: solid 5px #865a23;
+    background-color: #c7ae9a98;
+
 }
 
 th,
@@ -242,7 +267,7 @@ tr {
 }
 
 tr:hover {
-    background-color: #f2f2f2;
+    background-color: #c7ae9a98;
 }
 
 .hoverable:hover {
@@ -253,9 +278,14 @@ tr:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center
     /* gap: 50px; */
 }
 
+.centered-container {
+    display: flex;
+    justify-content: center;
+}
 @media (max-width: 768px) {
     .game-contianer {
         display: flex;
@@ -270,22 +300,4 @@ tr:hover {
     main {
         padding: 0px;
     }
-}
-
-.game-contianer-col {
-    display: flex;
-    flex-direction: row;
-}
-
-/* laderboard stylings */
-
-.leaderboard-table {
-    border: solid 5px #333;
-    background-color: #f5f5f5;
-
-}
-
-.leaderboard-container {
-    display: flex;
-    justify-content: center;
 }
