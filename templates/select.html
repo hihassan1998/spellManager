@@ -1,0 +1,30 @@
+{% include 'header.html' %}
+
+<div class="container" role="home">
+    <h1>
+        {% for file in list_files %}
+        <tr>
+            <td>
+                {{ file }}
+            </td>
+        </tr>
+        {% endfor %}
+    </h1>
+    debugg: {{list_files}}
+
+    <h1>Select a File</h1>
+    <form method="POST" action="/words">
+        <label for="file-select">Choose a file:</label>
+        <select name="file" id="file-select">
+            {% for file in list_files %}
+            <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+
+
+
+{% include 'footer.html' %}

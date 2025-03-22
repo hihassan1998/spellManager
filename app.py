@@ -35,6 +35,26 @@ def main():
     return render_template("index.html")
 
 
+@app.route('/check_word', methods=["GET", "POST"])
+def check_word():
+    """
+    Display the leaderboard page with the current entries and total points.
+    """
+    initialize_trie()
+    search_result = None
+    searched_word = ""
+    if request.method == "POST":
+        searched_word = request.form.get("word", "").strip().lower()
+        if searched_word:
+            search_result = trie.search(searched_word)
+            # print("reply from class:", search_result)
+
+    return render_template("check_word.html",
+                           search_result=search_result,
+                           searched_word=searched_word,
+                           )
+
+
 @app.route('/search', methods=['GET'])
 def search():
     prefix = request.args.get('prefix', '')
@@ -53,24 +73,41 @@ def reset():
     return redirect(url_for('main'))
 
 
-@app.route("/words", methods=['GET'])
+@app.route("/select", methods=['GET','POST'])
+def select():
+    """
+    Route for the about page
+    """
+    list_files = FileManager.get_available_files()
+    print("file names:", list_files)
+    # initialize_trie()
+    return render_template('select.html',
+                           list_files=list_files
+                           )
+
+@app.route("/words", methods=['GET','POST'])
 def words():
     """
     Route for the about page
     """
+    list_files = FileManager.get_available_files()
+    print("file names:", list_files)
     initialize_trie()
     words_in_list = trie.get_all_words()
-    for word in words_in_list:
-        print(word)
+    # for word in words_in_list:
+        # print(word)
     # print("the words returned:", words_in_list)
     total_nodes = trie.size()
     # all_words_list = trie.search_prefix('')
     words = trie.get_all_words()
     sorted_words = sorted(words)
-    return render_template('all_words.html', 
-                        #    words=sorted_words,
+    return render_template('all_words.html',
+                           #    words=sorted_words,
                            words=sorted_words,
-                           total_nodes=total_nodes)
+                           total_nodes=total_nodes,
+                           list_files=list_files
+                           )
+
 
 @app.route("/about")
 def about():
@@ -78,35 +115,6 @@ def about():
     Route for the about page
     """
     return render_template("about.html")
-
-
-@app.route('/check_word', methods=["GET", "POST"])
-def check_word():
-    """
-    Display the leaderboard page with the current entries and total points.
-    """
-    initialize_trie()
-    search_result = None
-    searched_word = ""
-    if request.method == "POST":
-        searched_word = request.form.get("word", "").strip().lower()
-        if searched_word:
-            search_result = trie.search(searched_word)
-            print("reply from class:", search_result)
-
-    return render_template("check_word.html",
-                           search_result=search_result,
-                           searched_word=searched_word,
-                           )
-
-
-@app.route('/delete_mode', methods=['POST'])
-def delete_mode():
-    """
-    Toggle the delete mode on the leaderboard page.
-    """
-    session['delete_mode'] = not session.get('delete_mode', False)
-    return redirect(url_for('leaderboard'))
 
 
 @app.route('/check_word', methods=['POST'])
@@ -121,6 +129,15 @@ def add_entry():
     session['player_name_submitted'] = True
 
     return redirect(url_for('check_word'))
+
+
+@app.route('/delete_mode', methods=['POST'])
+def delete_mode():
+    """
+    Toggle the delete mode on the leaderboard page.
+    """
+    session['delete_mode'] = not session.get('delete_mode', False)
+    return redirect(url_for('leaderboard'))
 
 
 @app.route('/leaderboard/<int:index>', methods=['POST'])

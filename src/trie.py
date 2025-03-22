@@ -60,7 +60,6 @@ class Trie:
             for char, child in node.children.items():
                 words.extend(_dfs(child, prefix + char))
             return words
-
         node = self.root
         for char in prefix:
             if char not in node.children:
