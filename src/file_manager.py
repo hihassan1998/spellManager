@@ -6,7 +6,6 @@ and load words from a selected file.
 """
 import os
 
-
 class FileManager:
     """Manages file operations for loading words from text files."""
     DIRECTORY = "filestxt"

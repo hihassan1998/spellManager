@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-This module contains the Trie class, which implements an unordered linked list.
+This module contains the Trie class, which implements a Trie data structure.
 The class provides methods to append, get, set, remove, and manipulate list items.
 It also allows support of iteration over the list to skip manual data retrival.
 """
@@ -16,10 +16,11 @@ class Trie:
         insert(word): Adds a word to the Trie.
         search(word): Checks if a word exists.
         remove(word): Deletes a word, raising SearchMiss if not found.
-        search_prefix(prefix): Returns words starting with a prefix.
+        prefix_search(prefix): Returns words starting with a prefix.
         get_all_words(): Returns all words in the Trie.
         size(): Returns the total word count.
         create_from_file(filename): Creates a Trie from a file.
+        suffix_search(suffix): Returns words ending with suffix.
     """
 
     def __init__(self):
@@ -63,7 +64,7 @@ class Trie:
             raise SearchMiss(f"The word '{word}' not found in Trie.")
         return True
 
-    def search_prefix(self, prefix: str):
+    def prefix_search(self, prefix: str):
         """
         Returns a list of words in the Trie that start with the given prefix.
         """
@@ -79,7 +80,7 @@ class Trie:
         """
         Returns a list of all words in the Trie.
         """
-        return self.search_prefix("")
+        return self.prefix_search("")
 
     def size(self) -> int:
         """
@@ -87,7 +88,7 @@ class Trie:
         """
         return _count_words(self.root)
 
-    def search_suffix(self, suffix):
+    def suffix_search(self, suffix):
         """
         Searches for all words in the Trie that end with the given suffix.
         Uses post-order traversal to match the suffix.
@@ -123,7 +124,7 @@ class Trie:
         return True
 
     @classmethod
-    def create_from_file(cls, filename):
+    def create_from_file(cls, filename="dictionary.txt"):
         """
         Class method to create a Trie instance and populate it with words from a file.
         """
@@ -134,7 +135,7 @@ class Trie:
         return trie
 
 
-# Helper sleeper fucntions
+# Helper sleepper fucntions
 
 def _remove(node, word, depth):
     """

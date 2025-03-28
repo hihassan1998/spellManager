@@ -3,7 +3,7 @@
 
 <div class="container" role="home">
     <form style="background: rgba(180, 138, 101, 0.724); padding:25px;  border-radius:25px; " method="POST"
-        action="/check_word">
+        action="{{ url_for('check_word') }}">
         <h1>Check if a word exists in the dictionary</h1>
         <h3>Think of any word and check if this dictionary contains it. </h3>
         <br>
