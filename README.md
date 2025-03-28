@@ -2,6 +2,10 @@
 
 Trie Dictionary Manager is a project that implements a Trie data structure to manage and search words efficiently. The application provides a simple and user-friendly interface for interacting with a dynamic word list.
 
+## Visual Overview:
+![ssTRIDICT](https://github.com/user-attachments/assets/3b47a6b6-ddb7-4b66-b655-0c3b427a35a0)
+
+
 ### Key Features:
 
 1. Add, Search, and Remove Words: Users can add new words, search for existing ones, and remove words from the Trie.
